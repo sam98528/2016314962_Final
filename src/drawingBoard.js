@@ -34,8 +34,11 @@ HanziLookup.DrawingBoard = (function (elmHost, strokeFinished) {
   var _showBoundary = false;
   var _showControlMedians = false;
 
+  var originalCanvasSize = 256;
   var colLeftWidth = $(".col-left").width();
   var canvasWidth = colLeftWidth;
+
+  var scaleX = canvasWidth / originalCanvasSize;
   var _canvas = $('<canvas class="stroke-input-canvas"></canvas>');
   _canvas.attr("width", canvasWidth);
   _canvas.attr("height", canvasWidth);
@@ -216,9 +219,9 @@ HanziLookup.DrawingBoard = (function (elmHost, strokeFinished) {
         _ctx.setLineDash([]);
         _ctx.lineWidth = strokeWidth;
         _ctx.beginPath();
-        _ctx.moveTo(ystroke[0][0], ystroke[0][1]);
+        _ctx.moveTo(ystroke[0][0] * scaleX, ystroke[0][1]* scaleX);
         for (var i = 1; i < ystroke.length; ++i) {
-          _ctx.lineTo(ystroke[i][0], ystroke[i][1]);
+          _ctx.lineTo(ystroke[i][0]* scaleX, ystroke[i][1]* scaleX);
           _ctx.stroke();
         }
       }
@@ -232,15 +235,15 @@ HanziLookup.DrawingBoard = (function (elmHost, strokeFinished) {
         _ctx.setLineDash([]);
         _ctx.lineWidth = 1;
         _ctx.beginPath();
-        _ctx.moveTo(xstroke[0][0], xstroke[0][1]);
-        _ctx.arc(xstroke[0][0], xstroke[0][1], 3, 0, 2 * Math.PI, true);
+        _ctx.moveTo(xstroke[0][0] * scaleX, xstroke[0][1] * scaleX);
+        _ctx.arc(xstroke[0][0] * scaleX , xstroke[0][1] * scaleX , 3 * scaleX, 0, 2 * Math.PI, true);
         _ctx.fillStyle = "green";
         _ctx.fill();
         for (var i = 1; i < xstroke.length; ++i) {
-          _ctx.lineTo(xstroke[i][0], xstroke[i][1]);
+          _ctx.lineTo(xstroke[i][0]* scaleX, xstroke[i][1]* scaleX);
           _ctx.stroke();
           _ctx.beginPath();
-          _ctx.arc(xstroke[i][0], xstroke[i][1], 3, 0, 2 * Math.PI, true);
+          _ctx.arc(xstroke[i][0]* scaleX, xstroke[i][1]* scaleX, 3* scaleX, 0, 2 * Math.PI, true);
           _ctx.fillStyle = "green";
           _ctx.fill();
         }

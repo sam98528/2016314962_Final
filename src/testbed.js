@@ -190,7 +190,7 @@ var HanziLookupApp = (function() {
     // Original
     var tsStart = new Date().getTime();
     var matcher = new HanziLookup.Matcher("orig");
-    matcher.match(analyzedChar, 15, function(matches) {
+    matcher.match(analyzedChar,5, function(matches) {
       var elapsed = new Date().getTime() - tsStart;
       updateResultChars($(".hanziLookupChars"), matches);
       var cnt = matcher.getCounters();
@@ -204,7 +204,7 @@ var HanziLookupApp = (function() {
     // MMAH
     tsStart = new Date().getTime();
     matcher = new HanziLookup.Matcher("mmah");
-    matcher.match(analyzedChar, 15, function(matches) {
+    matcher.match(analyzedChar, 5, function(matches) {
       var elapsed = new Date().getTime() - tsStart;
       updateResultChars($(".mmahLookupChars"), matches);
       var cnt = matcher.getCounters();
