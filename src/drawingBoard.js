@@ -34,8 +34,11 @@ HanziLookup.DrawingBoard = (function (elmHost, strokeFinished) {
   var _showBoundary = false;
   var _showControlMedians = false;
 
-  // Initializes handwriting recognition (events etc.)
-  _canvas = $('<canvas class="stroke-input-canvas" width="256" height="256"></canvas>');
+  var colLeftWidth = $(".col-left").width();
+  var canvasWidth = colLeftWidth;
+  var _canvas = $('<canvas class="stroke-input-canvas"></canvas>');
+  _canvas.attr("width", canvasWidth);
+  _canvas.attr("height", canvasWidth);
   _elmHost.append(_canvas);
   _ctx = _canvas[0].getContext("2d");
   _canvas.mousemove(function (e) {
