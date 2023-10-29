@@ -641,7 +641,17 @@ progress {
   margin-right: auto;
   margin-left: auto;
 }
+#submitButton {
+  margin-left: 10px;
+}
 
+/* Media query for mobile screens */
+@media (max-width: 768px) {
+  #submitButton {
+      margin-left: 0;
+      margin-top: 10px;  /* Adjust this value to your preference */
+  }
+}
 @media (min-width: 576px) {
   .container-sm, .container {
     max-width: 540px;
@@ -10838,6 +10848,14 @@ textarea.form-control-lg {
 }
 .features-icons .features-icons-item .features-icons-icon i {
   font-size: 4.5rem;
+}
+#area {
+  padding-top: 7rem;
+}
+@media (max-width: 768px) {
+  #area {
+    padding-top: 2rem;
+  }
 }
 
 header.masthead {

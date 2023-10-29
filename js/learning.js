@@ -51,7 +51,7 @@ var writer = HanziWriter.create('drawingBoard', hanzi, {
     return hanziPattern.test(inputString);
 }
 
-document.getElementById('submitButton').addEventListener('click', function(event) {
+document.getElementById('submit').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the form from submitting
     
     var hanzi = document.getElementById('hanziInput').value;
@@ -60,7 +60,14 @@ document.getElementById('submitButton').addEventListener('click', function(event
         window.location.href = 'learning.html?hanzi=' + encodeURIComponent(hanzi);
         console.log("correct");
     } else {
-        console.log("wrong");
+        if (hanzi == ''){
+            window.location.href = 'index.html';
+        }
+        else{
+            alert("한자를 한글자 입력해주세요!");
+            document.getElementById('hanziInput').value = '';
+            document.getElementById('submit').textContent = "홈으로"
+        }
         // Handle non-Hanzi input if needed
     }
 });
@@ -118,4 +125,13 @@ function displayPinyinFromURL() {
 document.getElementById('cancelQuizButton').addEventListener('click', function(event) {
     writer.setCharacter(hanzi);
     writer.hideOutline();
+});
+
+document.getElementById('hanziInput').addEventListener('input', function() {
+    let button = document.getElementById('submit');
+    if (this.value.length > 0) {
+        button.textContent = "배우기";  // Change to desired text
+    } else {
+        button.textContent = "홈으로"; // Revert back to original text
+    }
 });

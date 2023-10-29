@@ -32,9 +32,27 @@ document.getElementById('submitButton').addEventListener('click', function(event
 
     if (containsHanzi(hanzi)) {
         window.location.href = 'learning.html?hanzi=' + encodeURIComponent(hanzi);
-        console.log("correct");
     } else {
-        console.log("wrong");
+        alert("한자를 한글자 입력해주세요!");
+        document.getElementById('hanziInput').value = '';
         // Handle non-Hanzi input if needed
     }
+});
+
+document.getElementById('buttonCheng').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the form from submitting
+        window.location.href = 'learning.html?hanzi=' + encodeURIComponent('成');
+});
+
+document.getElementById('buttonJun').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the form from submitting
+        window.location.href = 'learning.html?hanzi=' + encodeURIComponent('均');
+});
+document.getElementById('buttonGuan').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the form from submitting
+        window.location.href = 'learning.html?hanzi=' + encodeURIComponent('馆');
+});
+document.getElementById('buttonDa').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the form from submitting
+        window.location.href = 'learning.html?hanzi=' + encodeURIComponent('大');
 });
