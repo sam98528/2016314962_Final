@@ -8,7 +8,38 @@ var desiredWidth = 0.9 * screenWidth; // 90% of screen width
 var svgElement = document.getElementById('drawingBoard');
 svgElement.setAttribute('width', desiredWidth + 'px');
 svgElement.setAttribute('height', desiredWidth + 'px');
+// Fetch the pinyin data and parse it
+fetch('./data/pinyin.txt')
+.then(response => response.text())
+.then(data => {
+    parseData(data);
+    displayPinyinFromURL(); // Display the Pinyin after parsing the data
+});
 
+function parseData(data) {
+    const lines = data.split('\n');
+    for (let line of lines) {
+        if (line.startsWith('U+')) {
+            let parts = line.split(':');
+            let hanzi = parts[1].split('#')[1].trim();
+            let pinyin = parts[1].split('#')[0].trim();
+            hanziToPinyinMapping[hanzi] = pinyin;
+        }
+    }
+}
+
+// Function to display the Pinyin based on the 'hanzi' parameter in the URL
+function displayPinyinFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let hanzi = urlParams.get('hanzi');
+
+    let pinyinOutput = document.getElementById("pinyinOutput");
+    if (hanziToPinyinMapping[hanzi]) {
+        pinyinOutput.textContent = hanziToPinyinMapping[hanzi];
+    } else {
+        pinyinOutput.textContent = "Not Found!";
+    }
+}
 var showHanzi = HanziWriter.create('hanzi', hanzi, {
     width: 100,
     height: 100,
@@ -89,38 +120,7 @@ window.addEventListener('resize', function() {
 // Create a mapping object to store Hanzi to Pinyin data
 let hanziToPinyinMapping = {};
 
-// Fetch the pinyin data and parse it
-fetch('./data/pinyin.txt')
-.then(response => response.text())
-.then(data => {
-    parseData(data);
-    displayPinyinFromURL(); // Display the Pinyin after parsing the data
-});
 
-function parseData(data) {
-    const lines = data.split('\n');
-    for (let line of lines) {
-        if (line.startsWith('U+')) {
-            let parts = line.split(':');
-            let hanzi = parts[1].split('#')[1].trim();
-            let pinyin = parts[1].split('#')[0].trim();
-            hanziToPinyinMapping[hanzi] = pinyin;
-        }
-    }
-}
-
-// Function to display the Pinyin based on the 'hanzi' parameter in the URL
-function displayPinyinFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let hanzi = urlParams.get('hanzi');
-
-    let pinyinOutput = document.getElementById("pinyinOutput");
-    if (hanziToPinyinMapping[hanzi]) {
-        pinyinOutput.textContent = hanziToPinyinMapping[hanzi];
-    } else {
-        pinyinOutput.textContent = "Not Found!";
-    }
-}
 
 document.getElementById('cancelQuizButton').addEventListener('click', function(event) {
     writer.setCharacter(hanzi);
