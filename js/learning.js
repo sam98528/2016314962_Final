@@ -9,7 +9,7 @@ var svgElement = document.getElementById('drawingBoard');
 svgElement.setAttribute('width', desiredWidth + 'px');
 svgElement.setAttribute('height', desiredWidth + 'px');
 // Fetch the pinyin data and parse it
-fetch('./data/pinyin.txt')
+fetch('/2016314962_Final/data/pinyin.txt')
 .then(response => response.text())
 .then(data => {
     parseData(data);
@@ -123,8 +123,7 @@ let hanziToPinyinMapping = {};
 
 
 document.getElementById('cancelQuizButton').addEventListener('click', function(event) {
-    writer.setCharacter(hanzi);
-    writer.hideOutline();
+    window.location.href ='/2016314962_Final/data/pinyin.txt';
 });
 
 document.getElementById('hanziInput').addEventListener('input', function() {
