@@ -3,7 +3,6 @@ const characters = [
     { id: 'jun', hanzi: '均' },
     { id: 'guan', hanzi: '馆' },
     { id: 'da', hanzi: '大' },
-    { id: 'xue', hanzi: '学' },
 ];
 
 characters.forEach(character => {
@@ -19,4 +18,22 @@ characters.forEach(character => {
     document.getElementById(character.id).addEventListener('click', function() {
         writer.animateCharacter();
     });
+});
+
+function containsHanzi(text) {
+    var regex = /[\u4e00-\u9fa5]/; // Hanzi range in Unicode
+    return regex.test(text);
+}
+
+
+document.getElementById('submitButton').addEventListener('click', function(event){
+    event.preventDefault(); // Prevent the form from submitting
+    var hanzi = document.getElementById('hanziInput').value;
+    if(containsHanzi(hanzi)) {
+        window.location.href = 'learning.html?hanzi=' + encodeURIComponent(hanzi);
+        console.log("correct")
+    } else {
+        console.log("wrong")
+        // Handle non-Hanzi input if needed
+    }
 });
