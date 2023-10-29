@@ -9,7 +9,7 @@ var svgElement = document.getElementById('drawingBoard');
 svgElement.setAttribute('width', desiredWidth + 'px');
 svgElement.setAttribute('height', desiredWidth + 'px');
 // Fetch the pinyin data and parse it
-fetch('./data/pinyin.txt')
+fetch('../data/pinyin.txt')
 .then(response => response.text())
 .then(data => {
     parseData(data);
