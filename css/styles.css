@@ -10931,7 +10931,7 @@ footer.footer {
 
 .custom-input {
   border-right: 5px; 
-  border-left: 0px; /* This will remove the border between the input and the button */
+  border-left: 5px; /* This will remove the border between the input and the button */
 }
 
 .custom-button {

@@ -4,14 +4,27 @@ var hanzi = urlParams.get('hanzi');
 var screenWidth = window.innerWidth;
 var desiredWidth = 0.9 * screenWidth; // 90% of screen width
 
+
 var svgElement = document.getElementById('drawingBoard');
 svgElement.setAttribute('width', desiredWidth + 'px');
 svgElement.setAttribute('height', desiredWidth + 'px');
+
+var showHanzi = HanziWriter.create('hanzi', hanzi, {
+    width: 100,
+    height: 100,
+    showCharacter: true,
+    padding: 5,
+    showOutline:true,
+    delayBetweenLoops: 3000
+});
+showHanzi.loopCharacterAnimation();
 
 var writer = HanziWriter.create('drawingBoard', hanzi, {
     width: desiredWidth,
     height: desiredWidth,
     showCharacter: true,
+    showHintAfterMisses: 1,
+    highlightOnComplete: true,
     padding: 5
 });
   writer.quiz({
@@ -33,24 +46,24 @@ var writer = HanziWriter.create('drawingBoard', hanzi, {
     }
   });
 
-  function containsHanzi(text) {
-    var regex = /[\u4e00-\u9fa5]/; // Hanzi range in Unicode
-    return regex.test(text);
+  function containsHanzi(inputString) {
+    const hanziPattern = /^[\u4e00-\u9fa5]$/;  // Regular expression to match Hanzi characters
+    return hanziPattern.test(inputString);
 }
 
-
-document.getElementById('submitButton').addEventListener('click', function(event){
+document.getElementById('submitButton').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the form from submitting
+    
     var hanzi = document.getElementById('hanziInput').value;
-    if(containsHanzi(hanzi)) {
+
+    if (containsHanzi(hanzi)) {
         window.location.href = 'learning.html?hanzi=' + encodeURIComponent(hanzi);
-        console.log("correct")
+        console.log("correct");
     } else {
-        console.log("wrong")
+        console.log("wrong");
         // Handle non-Hanzi input if needed
     }
 });
-
 window.addEventListener('resize', function() {
     var screenWidth = window.innerWidth;
     var desiredWidth = 0.9 * screenWidth; // 90% of screen width
@@ -62,4 +75,47 @@ window.addEventListener('resize', function() {
 
     // Update the HanziWriter instance size
     writer.resize(desiredWidth, desiredWidth);
+});
+
+
+
+// Create a mapping object to store Hanzi to Pinyin data
+let hanziToPinyinMapping = {};
+
+// Fetch the pinyin data and parse it
+fetch('../data/pinyin.txt')
+.then(response => response.text())
+.then(data => {
+    parseData(data);
+    displayPinyinFromURL(); // Display the Pinyin after parsing the data
+});
+
+function parseData(data) {
+    const lines = data.split('\n');
+    for (let line of lines) {
+        if (line.startsWith('U+')) {
+            let parts = line.split(':');
+            let hanzi = parts[1].split('#')[1].trim();
+            let pinyin = parts[1].split('#')[0].trim();
+            hanziToPinyinMapping[hanzi] = pinyin;
+        }
+    }
+}
+
+// Function to display the Pinyin based on the 'hanzi' parameter in the URL
+function displayPinyinFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let hanzi = urlParams.get('hanzi');
+
+    let pinyinOutput = document.getElementById("pinyinOutput");
+    if (hanziToPinyinMapping[hanzi]) {
+        pinyinOutput.textContent = hanziToPinyinMapping[hanzi];
+    } else {
+        pinyinOutput.textContent = "Not Found!";
+    }
+}
+
+document.getElementById('cancelQuizButton').addEventListener('click', function(event) {
+    writer.setCharacter(hanzi);
+    writer.hideOutline();
 });

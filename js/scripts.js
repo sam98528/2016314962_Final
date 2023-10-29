@@ -20,20 +20,21 @@ characters.forEach(character => {
     });
 });
 
-function containsHanzi(text) {
-    var regex = /[\u4e00-\u9fa5]/; // Hanzi range in Unicode
-    return regex.test(text);
+function containsHanzi(inputString) {
+    const hanziPattern = /^[\u4e00-\u9fa5]$/;  // Regular expression to match Hanzi characters
+    return hanziPattern.test(inputString);
 }
 
-
-document.getElementById('submitButton').addEventListener('click', function(event){
+document.getElementById('submitButton').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the form from submitting
+    
     var hanzi = document.getElementById('hanziInput').value;
-    if(containsHanzi(hanzi)) {
+
+    if (containsHanzi(hanzi)) {
         window.location.href = 'learning.html?hanzi=' + encodeURIComponent(hanzi);
-        console.log("correct")
+        console.log("correct");
     } else {
-        console.log("wrong")
+        console.log("wrong");
         // Handle non-Hanzi input if needed
     }
 });
