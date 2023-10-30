@@ -8,6 +8,8 @@ var desiredWidth = Math.min(0.9 * screenWidth, maxWidth);
 let hanziToPinyinMapping = {};
 var strokeMistakeLookup = {};
 
+var hint = 1;
+
 var svgElement = document.getElementById('drawingBoard');
 svgElement.setAttribute('width', desiredWidth + 'px');
 svgElement.setAttribute('height', desiredWidth + 'px');
@@ -93,7 +95,7 @@ writer.quiz({
                 renderFanningStrokes(target, strokesPortion, strokeMistakeLookup);
             }
         });
-
+        $('#exampleModal').modal('show');
 
     }
 
@@ -134,7 +136,8 @@ function renderFanningStrokes(target, strokes, strokeMistakeLookup) {
     // Create a label for the most recent stroke's mistakes and add to the container
     var mistakes = strokeMistakeLookup[strokes.length - 1] || 0; // Grab the mistakes for the most recent stroke
     var mistakeLabel = document.createElement('p');
-    mistakeLabel.innerHTML = "Mistakes: " + mistakes;
+    mistakeLabel.style.textAlign = 'center'
+    mistakeLabel.innerHTML = "실수: " + mistakes;
     container.appendChild(mistakeLabel);
 
     // Append the container to the target
@@ -182,4 +185,15 @@ document.getElementById('submit').addEventListener('click', function (event) {
     }
 });
 
+document.getElementById('hintButton').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent the form from submitting
+    if (hint == 0) {
+        alert("힌트 보기 기회가 없습니다.");
+    } else {
+        showHanzi.animateCharacter();
+        hint = 0;
+        document.getElementById('hintButton').textContent = '힌트 보기 (0회)';
+
+    }
+});
 

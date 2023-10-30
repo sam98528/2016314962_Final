@@ -6,6 +6,7 @@ var maxWidth = 500; // or whatever maximum width you decide on
 var desiredWidth = Math.min(0.9 * screenWidth, maxWidth);
 
 
+
 var svgElement = document.getElementById('drawingBoard');
 svgElement.setAttribute('width', desiredWidth + 'px');
 svgElement.setAttribute('height', desiredWidth + 'px');
@@ -126,3 +127,4 @@ document.getElementById('testGoButton').addEventListener('click', function (even
     event.preventDefault(); // Prevent the form from submitting
     window.location.href = 'test.html?hanzi=' + encodeURIComponent(hanzi);
 });
+
