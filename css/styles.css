@@ -10946,6 +10946,25 @@ footer.footer {
   padding-right: 5px;
   margin: 0px;
 }
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.custom-target {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+}
+.custom-p{
+  margin: 0;
+}
+.custom-target > div {
+  margin: 10px; /* Adds some space between the stroke containers */
+}
 
 .custom-input {
   border-right: 5px; 
@@ -10965,4 +10984,10 @@ footer.footer {
   max-width: 100%;
   display: block;
   margin: 0 auto;
+}
+
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
