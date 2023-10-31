@@ -92,6 +92,8 @@ writer.quiz({
             var target = document.getElementById('target');
             for (var i = 0; i < charData.strokes.length; i++) {
                 var strokesPortion = charData.strokes.slice(0, i + 1);
+                var isLastStroke = i === charData.strokes.length - 1;
+                var strokeColor = isLastStroke ? 'red' : undefined; // or whatever the default color is
                 renderFanningStrokes(target, strokesPortion, strokeMistakeLookup);
             }
         });
@@ -126,7 +128,11 @@ function renderFanningStrokes(target, strokes, strokeMistakeLookup) {
         // Create the stroke path
         var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttributeNS(null, 'd', strokePath);
-        path.style.fill = '#555';
+        if (index === strokes.length - 1) {
+            path.style.fill = 'red';
+        } else {
+            path.style.fill = '#555';
+        }
         group.appendChild(path);
     });
 
