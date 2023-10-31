@@ -128,7 +128,7 @@ function renderFanningStrokes(target, strokes, strokeMistakeLookup) {
         // Create the stroke path
         var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttributeNS(null, 'd', strokePath);
-        if (index === strokes.length - 1) {
+        if (index == strokes.length - 1) {
             path.style.fill = 'red';
         } else {
             path.style.fill = '#555';
