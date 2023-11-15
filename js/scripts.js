@@ -11,23 +11,23 @@ characters.forEach(character => {
         height: 100,
         padding: 5,
         showOutline: true,
-        strokeAnimationSpeed: 5, // 5x normal speed
-        delayBetweenStrokes: 10, // milliseconds
+        strokeAnimationSpeed: 5,
+        delayBetweenStrokes: 10,
     });
 
-    document.getElementById(character.id).addEventListener('click', function() {
+    document.getElementById(character.id).addEventListener('click', function () {
         writer.animateCharacter();
     });
 });
 
 function containsHanzi(inputString) {
-    const hanziPattern = /^[\u4e00-\u9fa5]$/;  // Regular expression to match Hanzi characters
+    const hanziPattern = /^[\u4e00-\u9fa5]$/;
     return hanziPattern.test(inputString);
 }
 
-document.getElementById('submitButton').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the form from submitting
-    
+document.getElementById('submitButton').addEventListener('click', function (event) {
+    event.preventDefault();
+
     var hanzi = document.getElementById('hanziInput').value;
 
     if (containsHanzi(hanzi)) {
@@ -35,24 +35,23 @@ document.getElementById('submitButton').addEventListener('click', function(event
     } else {
         alert("한자를 한글자 입력해주세요!");
         document.getElementById('hanziInput').value = '';
-        // Handle non-Hanzi input if needed
     }
 });
 
-document.getElementById('buttonCheng').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the form from submitting
-        window.location.href = 'learning.html?hanzi=' + encodeURIComponent('成');
+document.getElementById('buttonCheng').addEventListener('click', function (event) {
+    event.preventDefault();
+    window.location.href = 'learning.html?hanzi=' + encodeURIComponent('成');
 });
 
-document.getElementById('buttonJun').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the form from submitting
-        window.location.href = 'learning.html?hanzi=' + encodeURIComponent('均');
+document.getElementById('buttonJun').addEventListener('click', function (event) {
+    event.preventDefault();
+    window.location.href = 'learning.html?hanzi=' + encodeURIComponent('均');
 });
-document.getElementById('buttonGuan').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the form from submitting
-        window.location.href = 'learning.html?hanzi=' + encodeURIComponent('馆');
+document.getElementById('buttonGuan').addEventListener('click', function (event) {
+    event.preventDefault();
+    window.location.href = 'learning.html?hanzi=' + encodeURIComponent('馆');
 });
-document.getElementById('buttonDa').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the form from submitting
-        window.location.href = 'learning.html?hanzi=' + encodeURIComponent('大');
+document.getElementById('buttonDa').addEventListener('click', function (event) {
+    event.preventDefault();
+    window.location.href = 'learning.html?hanzi=' + encodeURIComponent('大');
 });

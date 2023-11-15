@@ -2,7 +2,7 @@ var urlParams = new URLSearchParams(window.location.search);
 var hanzi = urlParams.get('hanzi');
 
 var screenWidth = window.innerWidth;
-var maxWidth = 500; // or whatever maximum width you decide on
+var maxWidth = 500;
 var desiredWidth = Math.min(0.9 * screenWidth, maxWidth);
 
 
@@ -10,12 +10,11 @@ var desiredWidth = Math.min(0.9 * screenWidth, maxWidth);
 var svgElement = document.getElementById('drawingBoard');
 svgElement.setAttribute('width', desiredWidth + 'px');
 svgElement.setAttribute('height', desiredWidth + 'px');
-// Fetch the pinyin data and parse it
 fetch('/2016314962_Final/data/pinyin.txt')
     .then(response => response.text())
     .then(data => {
         parseData(data);
-        displayPinyinFromURL(); // Display the Pinyin after parsing the data
+        displayPinyinFromURL();
     });
 
 function parseData(data) {
@@ -30,7 +29,6 @@ function parseData(data) {
     }
 }
 
-// Function to display the Pinyin based on the 'hanzi' parameter in the URL
 function displayPinyinFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
     let hanzi = urlParams.get('hanzi');
@@ -58,17 +56,16 @@ var writer = HanziWriter.create('drawingBoard', hanzi, {
     showHintAfterMisses: 1,
     highlightOnComplete: true,
     padding: 5,
-    //showOutline :true
 });
 writer.quiz();
 
 function containsHanzi(inputString) {
-    const hanziPattern = /^[\u4e00-\u9fa5]$/;  // Regular expression to match Hanzi characters
+    const hanziPattern = /^[\u4e00-\u9fa5]$/;
     return hanziPattern.test(inputString);
 }
 
 document.getElementById('submit').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the form from submitting
+    event.preventDefault();
 
     var hanzi = document.getElementById('hanziInput').value;
 
@@ -84,25 +81,21 @@ document.getElementById('submit').addEventListener('click', function (event) {
             document.getElementById('hanziInput').value = '';
             document.getElementById('submit').textContent = "홈으로"
         }
-        // Handle non-Hanzi input if needed
     }
 });
 window.addEventListener('resize', function () {
     var screenWidth = window.innerWidth;
-    var desiredWidth = 0.9 * screenWidth; // 90% of screen width
+    var desiredWidth = 0.9 * screenWidth;
 
-    // Update the SVG size
     var svgElement = document.getElementById('drawingBoard');
     svgElement.setAttribute('width', desiredWidth + 'px');
     svgElement.setAttribute('height', desiredWidth + 'px');
 
-    // Update the HanziWriter instance size
     writer.resize(desiredWidth, desiredWidth);
 });
 
 
 
-// Create a mapping object to store Hanzi to Pinyin data
 let hanziToPinyinMapping = {};
 
 
@@ -116,15 +109,15 @@ document.getElementById('cancelQuizButton').addEventListener('click', function (
 document.getElementById('hanziInput').addEventListener('input', function () {
     let button = document.getElementById('submit');
     if (this.value.length > 0) {
-        button.textContent = "배우기";  // Change to desired text
+        button.textContent = "배우기";
     } else {
-        button.textContent = "홈으로"; // Revert back to original text
+        button.textContent = "홈으로";
     }
 });
 
 
 document.getElementById('testGoButton').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the form from submitting
+    event.preventDefault();
     window.location.href = 'test.html?hanzi=' + encodeURIComponent(hanzi);
 });
 

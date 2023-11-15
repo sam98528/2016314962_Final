@@ -2,7 +2,7 @@ var urlParams = new URLSearchParams(window.location.search);
 var hanzi = urlParams.get('hanzi');
 
 var screenWidth = window.innerWidth;
-var maxWidth = 500; // or whatever maximum width you decide on
+var maxWidth = 500;
 var desiredWidth = Math.min(0.9 * screenWidth, maxWidth);
 
 let hanziToPinyinMapping = {};
@@ -13,12 +13,11 @@ var hint = 1;
 var svgElement = document.getElementById('drawingBoard');
 svgElement.setAttribute('width', desiredWidth + 'px');
 svgElement.setAttribute('height', desiredWidth + 'px');
-// Fetch the pinyin data and parse it
 fetch('/2016314962_Final/data/pinyin.txt')
     .then(response => response.text())
     .then(data => {
         parseData(data);
-        displayPinyinFromURL(); // Display the Pinyin after parsing the data
+        displayPinyinFromURL();
     });
 
 function parseData(data) {
@@ -33,7 +32,6 @@ function parseData(data) {
     }
 }
 
-// Function to display the Pinyin based on the 'hanzi' parameter in the URL
 function displayPinyinFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
     let hanzi = urlParams.get('hanzi');
@@ -93,7 +91,7 @@ writer.quiz({
             for (var i = 0; i < charData.strokes.length; i++) {
                 var strokesPortion = charData.strokes.slice(0, i + 1);
                 var isLastStroke = i === charData.strokes.length - 1;
-                var strokeColor = isLastStroke ? 'red' : undefined; // or whatever the default color is
+                var strokeColor = isLastStroke ? 'red' : undefined;
                 renderFanningStrokes(target, strokesPortion, strokeMistakeLookup);
             }
         });
@@ -104,28 +102,24 @@ writer.quiz({
 });
 
 function renderFanningStrokes(target, strokes, strokeMistakeLookup) {
-    // Create a new container for each progression step
     var container = document.createElement('div');
-    container.style.display = 'inline-block'; // Display side by side
+    container.style.display = 'inline-block';
     container.style.marginRight = '10px';
 
-    // Clone the base SVG from the template
     var svg = document.querySelector('#hanzi-template').cloneNode(true);
-    svg.style.display = 'block';  // Make the cloned SVG visible
-    svg.removeAttribute('id'); // Remove the id so we don't have duplicate ids
+    svg.style.display = 'block';
+    svg.removeAttribute('id');
     svg.style.width = '100px';
     svg.style.height = '100px';
     svg.style.border = '1px solid #EEE';
-    svg.style.marginBottom = '5px'; // Add space between SVG and label
+    svg.style.marginBottom = '5px';
 
-    // Create a group element to contain the stroke paths
     var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     var transformData = HanziWriter.getScalingTransform(100, 100);
     group.setAttributeNS(null, 'transform', transformData.transform);
     svg.appendChild(group);
 
     strokes.forEach(function (strokePath, index) {
-        // Create the stroke path
         var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttributeNS(null, 'd', strokePath);
         if (index == strokes.length - 1) {
@@ -136,41 +130,38 @@ function renderFanningStrokes(target, strokes, strokeMistakeLookup) {
         group.appendChild(path);
     });
 
-    // Add SVG to the container
     container.appendChild(svg);
 
-    // Create a label for the most recent stroke's mistakes and add to the container
-    var mistakes = strokeMistakeLookup[strokes.length - 1] || 0; // Grab the mistakes for the most recent stroke
+    var mistakes = strokeMistakeLookup[strokes.length - 1] || 0;
     var mistakeLabel = document.createElement('p');
     mistakeLabel.style.textAlign = 'center'
     mistakeLabel.innerHTML = "실수: " + mistakes;
     container.appendChild(mistakeLabel);
 
-    // Append the container to the target
     target.appendChild(container);
 }
 
 document.getElementById('testGoButton').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the form from submitting
+    event.preventDefault();
     window.location.href = 'test.html?hanzi=' + encodeURIComponent(hanzi);
 });
 
 document.getElementById('hanziInput').addEventListener('input', function () {
     let button = document.getElementById('homeButton');
     if (this.value.length > 0) {
-        button.textContent = "배우기";  // Change to desired text
+        button.textContent = "배우기";
     } else {
-        button.textContent = "홈으로"; // Revert back to original text
+        button.textContent = "홈으로";
     }
 });
 
 function containsHanzi(inputString) {
-    const hanziPattern = /^[\u4e00-\u9fa5]$/;  // Regular expression to match Hanzi characters
+    const hanziPattern = /^[\u4e00-\u9fa5]$/;
     return hanziPattern.test(inputString);
 }
 
 document.getElementById('submit').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the form from submitting
+    event.preventDefault();
 
     var hanzi = document.getElementById('hanziInput').value;
 
@@ -187,12 +178,11 @@ document.getElementById('submit').addEventListener('click', function (event) {
             document.getElementById('homeButton').textContent = "홈으로"
             $('#alertModal').modal('hide');
         }
-        // Handle non-Hanzi input if needed
     }
 });
 
 document.getElementById('hintButton').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the form from submitting
+    event.preventDefault();
     if (hint == 0) {
         alert("힌트 보기 기회가 없습니다.");
     } else {
